@@ -1,5 +1,5 @@
-import '../scss/index.scss';
 import tipTextTemplate from '@/components/tips/tips.hbs';
+import '../scss/index.scss';
 
 const aaaDom = document.getElementById('aaa')
 const timer = setTimeout(() => {

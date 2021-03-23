@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const glob = require('glob');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
 
 
@@ -15,7 +14,7 @@ const jsFiles = glob.sync('src/pages/**/js/*.js');
 const entryObj = {};
 jsFiles.forEach((path) => {
   const filename = path.split('/')[2];
-  entryObj[filename] = ['./' + path];
+  entryObj[filename] = ['./' + path, '@babel/polyfill'];
 });
 
 const config = {
@@ -91,14 +90,13 @@ const config = {
       'window.jQuery': 'jquery',
       Popper: 'popper.js/dist/umd/popper',
     }),
-    new FixStyleOnlyEntriesPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name]/css/[name].css',
       chunkFilename: '[name]/css/[name].css',
     }),
     new HandlebarsPlugin({
       entry: path.join(process.cwd(), "src", "pages", "*", "*.hbs"),
-      output: path.join(process.cwd(), dist, "[name].html"),
+      output: path.join(process.cwd(), dist, "[name]", "index.html"),
       partials: [
         path.join(process.cwd(), "src", "components", "*", "*.hbs")
       ],
