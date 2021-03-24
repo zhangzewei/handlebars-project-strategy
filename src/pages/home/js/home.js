@@ -3,7 +3,7 @@ import '../scss/index.scss';
 
 const aaaDom = document.getElementById('aaa')
 const timer = setTimeout(() => {
-    const tipsDom = tipTextTemplate({ tipText: "hello tips" })
+    const tipsDom = tipTextTemplate({ tipText: a })
     aaaDom.innerHTML = tipsDom;
     clearTimeout(timer);
 }, 3000)
