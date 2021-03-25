@@ -5,10 +5,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>{{title}}</title>
+  <link rel="stylesheet" href="css/{{pageName}}.css">
 </head>
 
 <body {{#if bodyClass}} class="{{ bodyClass }}" {{/if}}>
   {{#if @partial-block}}
   {{> @partial-block }}
   {{/if}}
+  <script src="../common/js/common.js"></script>
+  <script src="js/{{pageName}}.js"></script>
 </body>

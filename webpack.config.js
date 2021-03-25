@@ -1,9 +1,7 @@
 const path = require('path');
-const webpack = require('webpack');
 const glob = require('glob');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
 
 
@@ -85,24 +83,11 @@ const config = {
       filename: '[name]/css/[name].css',
       chunkFilename: '[name]/css/[name].css',
     }),
-    new HtmlWebpackPlugin({
-      title: "Generic Head Title",
-      // the template you want to use
-      template: path.join(__dirname, "src", "components", "bodyLayout", "bodyLayout.hbs"),
-      // the output file name
-      filename: path.join(__dirname, "dist", "partials", "bodyLayout.hbs"),
-      inject: "head"
-    }),
     new HandlebarsPlugin({
-      htmlWebpackPlugin: {
-        enabled: true, // register all partials from html-webpack-plugin, defaults to `false`
-        prefix: "html", // where to look for htmlWebpackPlugin output. default is "html"
-        HtmlWebpackPlugin // optionally: pass in HtmlWebpackPlugin if it cannot be resolved
-      },
       entry: path.join(process.cwd(), "src", "pages", "*", "*.hbs"),
       output: path.join(process.cwd(), dist, "[name]", "index.html"),
       partials: [
-        path.join(process.cwd(), "src", "components", "*", "*.hbs")
+        path.join(process.cwd(), "src", "components", "*", "*.hbs"),
       ],
     }),
   ],
@@ -110,9 +95,18 @@ const config = {
     contentBase: path.join(__dirname, dist),
     watchContentBase: true,
     hot: true
-  }
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'common',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
-
-
 
 module.exports = config;
