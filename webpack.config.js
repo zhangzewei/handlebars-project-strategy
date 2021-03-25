@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const glob = require('glob');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
 
 
@@ -35,10 +36,7 @@ const config = {
         }
       },
       {
-        test: /\.hbs$/, loader: "handlebars-loader", options: {
-          helperDirs: [path.resolve(__dirname, 'src/helpers')],
-          inlineRequires: '/public/images'
-        }
+        test: /\.hbs$/, loader: "handlebars-loader"
       },
       {
         test: /\.scss$/,
@@ -83,23 +81,30 @@ const config = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-      Popper: 'popper.js/dist/umd/popper',
-    }),
     new MiniCssExtractPlugin({
       filename: '[name]/css/[name].css',
       chunkFilename: '[name]/css/[name].css',
     }),
+    new HtmlWebpackPlugin({
+      title: "Generic Head Title",
+      // the template you want to use
+      template: path.join(__dirname, "src", "components", "bodyLayout", "bodyLayout.hbs"),
+      // the output file name
+      filename: path.join(__dirname, "dist", "partials", "bodyLayout.hbs"),
+      inject: "head"
+    }),
     new HandlebarsPlugin({
+      htmlWebpackPlugin: {
+        enabled: true, // register all partials from html-webpack-plugin, defaults to `false`
+        prefix: "html", // where to look for htmlWebpackPlugin output. default is "html"
+        HtmlWebpackPlugin // optionally: pass in HtmlWebpackPlugin if it cannot be resolved
+      },
       entry: path.join(process.cwd(), "src", "pages", "*", "*.hbs"),
       output: path.join(process.cwd(), dist, "[name]", "index.html"),
       partials: [
         path.join(process.cwd(), "src", "components", "*", "*.hbs")
       ],
-    })
+    }),
   ],
   devServer: {
     contentBase: path.join(__dirname, dist),
@@ -107,5 +112,7 @@ const config = {
     hot: true
   }
 };
+
+
 
 module.exports = config;

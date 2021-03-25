@@ -1,9 +1,5 @@
-import tipTextTemplate from '@/components/tips/tips.hbs';
+import tip from '@/components/tips'
 import '../scss/index.scss';
 
 const aaaDom = document.getElementById('aaa')
-const timer = setTimeout(() => {
-    const tipsDom = tipTextTemplate({ tipText: a })
-    aaaDom.innerHTML = tipsDom;
-    clearTimeout(timer);
-}, 3000)
+tip(aaaDom);
