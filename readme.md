@@ -1,5 +1,5 @@
-## A pure html css javascript stratege by using handelbars
-this is a stratege of pure html project by using handelbars
+## A pure html css javascript strategy by using handelbars
+this is a strategy of pure html project by using handelbars
 
 ## how to use it 
 
